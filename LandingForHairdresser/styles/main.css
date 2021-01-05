@@ -1,0 +1,298 @@
+*{
+    padding:0;
+    margin:0;
+    box-sizing: border-box;
+}
+::-webkit-scrollbar {
+    width: 12px;
+}
+::-webkit-scrollbar-corner      
+{
+    background-color: rgba(0,0,0,0.5);
+}
+/* Track */
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.781);
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.466); 
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+}
+::-webkit-scrollbar-thumb:window-inactive {
+	background: rgba(224, 210, 210, 0.4); 
+}
+.header-photo
+{
+    width: 100%;
+    height: 586px;
+}
+.header-navbar-photo {
+    box-shadow: 0px 12px 21px #7D8AD0;
+    border-radius: 25px;
+    z-index: 2;
+    top: 354px;
+    left: 293px;
+    position: absolute;
+    width: 1200px;
+    height: 910px;
+    background: white;
+}
+.header-navigation {
+}
+.header-image
+{
+    width: 100%;
+}
+.white-space
+{
+    background-color: #e6e9ec;
+    position: absolute;
+    width: 100%;
+    height: 1302px;
+}
+.header-phrase {
+    top:255px;
+    left: 792px;
+    position: absolute;
+    z-index: 2;
+    color: white;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+.links-for-page {
+    position: relative;
+    top:70px;
+    left:150px;
+    display: flex;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 15px ;
+    height: 40px;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 650px;
+}
+.page-link {
+    display: flex;
+}
+.shape-icon
+{
+    position: absolute;
+    top:65px;
+    left:50px;
+}
+.phone-icon {
+    top:68px;
+    position: absolute;
+    right: 30%;
+}
+.phone-number-text {
+    top:70px;
+    position: absolute;
+    right: 20%;
+}
+
+.header-navbar__photo-block {
+}
+.photo-one {
+    border-radius: 30px 0 0 0;
+    right: 2%;
+    position: absolute;
+    top:15%;
+    width: 156px;
+    height: 139px;
+}
+.photo-two
+{
+    position: absolute;
+    right: 2%;
+    top:31%;
+    width: 156px;
+    height: 267px;
+}
+.photo-three
+{
+    border-radius: 30px 0 0 0;
+    position: absolute;
+    width: 155px;
+    height: 159px;
+    right: 15.5%;
+    top:22%;
+}
+.photo-four
+{
+    border-radius: 30px 0 0 0;
+    position: absolute;
+    width: 237px;
+    height: 185px;
+    right: 15.5%;
+    top:40%;
+}
+.photo-five
+{
+    position: absolute;
+    width: 398px;
+    height: 200px;
+    top:61%;
+    right: 2%;
+}
+.photo-six
+{
+    border-radius: 30px 0 0 0;
+    position: absolute;
+    width: 155px;
+    height: 150px;
+    top:66.5%;
+    right: 48.8%;
+}
+.photo-seven
+{
+    position: absolute;
+    width: 155px;
+    height: 287px;
+    top:51.5%;
+    right: 35.5%;
+}
+.header-mastername-text {
+    position: absolute;
+    top:30%;
+    left: 37%;
+    font-family: 'MuseoModerno', cursive;
+    font-size: 30px;
+}
+.header-master-text {
+    left: 3%;
+    position: absolute;
+    top:35%;
+    font-family: 'MuseoModerno', serif;
+    font-size: 30px;
+}
+.main-block
+{
+    top:1400px;
+    position: absolute;
+    width: 100%;
+    height: 1040px;
+    background-color: #F7F9FB;
+}
+.main-block__about-me {
+    width: 100%;
+    height: 573px;
+    background-color: rgb(245, 245, 245);
+}
+.text-blocks_about-me {
+    position: absolute;
+    top:15%;
+    left:15%;
+}
+.about-me__text {
+    position: relative;
+    left:57%;
+    font-size: 60px;
+    font-family: 'Baskervville', cursive;
+}
+.about-me__name-text {
+    position: relative;
+    left:14%;
+    font-size: 80px;
+    font-family: 'Baskervville' regular;
+}
+.about-me__description-text {
+    font-size: 40px;
+    font-family: 'Baskervville' regular;
+}
+.master-photo {
+    position: relative;
+    top:12%;
+    left: 19%;
+    border-radius: 100% 100% 100% 100%;
+    width: 10%;
+    height: 30%;
+}
+.text-description_about-me {
+    width: 640px;
+    height: 285px;
+    position: absolute;
+    left: 60%;
+}
+.text-desc{
+    color: black;
+    font-family: 'EB Garamond', serif;
+    font-size: 20px;
+}
+.latest-clients
+{
+    position: absolute;
+    width: 100%;
+    height: 470px;
+}
+.client-text-header {
+    position: absolute;
+    font-size: 40px;
+    font-family:'Baskervville' regular;
+    left:40%;
+    top: 10%;
+}
+.up-kav {
+    position: absolute;
+    top:30%;
+    left:10%;
+    font-family:'Baskervville' ;
+    font-size:100px;
+}
+.recall-text {
+    text-align: center;
+    position: absolute;
+    top:40%;
+    left:15%;
+    font-size:20px;
+    font-family: 'EB Garamond', serif;
+}
+.low-kav {
+    position: absolute;
+    top:60%;
+    left:85%;
+    font-family:'Baskervville' ;
+    font-size:100px;
+}
+.latest-clients-button {
+    position: absolute;
+    top:85%;
+    left:48%;
+    width: 80px;
+    height: 40px;
+    font-weight: bold;
+    color: rgb(34, 34, 34);
+    text-decoration: none;
+    text-shadow: 0 -1px rgba(0,0,0,.5);
+    user-select: none;
+    padding: .7em 1.5em;
+    border: 1px solid rgb(27, 27, 27);
+    border-radius: 5px;
+    outline: none;
+    background: rgb(43, 43, 43) linear-gradient(rgb(37, 36, 35),rgb(20, 20, 20)) 80%);
+    box-shadow:
+     0 6px rgb(26, 25, 25),
+     0 3px 15px rgba(0,0,0,.4),
+     inset 0 1px rgba(255,255,255,.3),
+     inset 0 0 3px rgba(255,255,255,.5);
+    transition: .2s;
+}
+.latest-clients-button:hover
+{
+    background: rgb(110, 109, 108) linear-gradient(rgb(117, 116, 115), rgb(151, 148, 146) 80%);
+}
+.latest-clients-button:active{
+    background: rgb(80, 73, 69) linear-gradient(rgb(75, 68, 63), rgb(97, 89, 84) 80%);
+        box-shadow:
+    0 6px rgb(26, 25, 25),
+    0 3px 15px rgba(0,0,0,.4),
+    inset 0 1px rgba(255,255,255,.3),
+    inset 0 0 3px rgba(255,255,255,.5);
+    transform: translate(0, 4px);
+}
