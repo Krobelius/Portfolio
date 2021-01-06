@@ -106,21 +106,6 @@ namespace WEReplace1._0
                 System.Windows.Forms.MessageBox.Show("Произошла ошибка!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-        private void Button_Click_4(object sender, RoutedEventArgs e)
-        {
-            FilesWork fw = new FilesWork();
-            try
-            {
-                fw.Table_Filler(array_path, def_path, excel_data);
-                files_box.Items.Add("Таблицы заполнены!");
-            }
-            catch (Exception excp)
-            {
-                System.Windows.Forms.MessageBox.Show("Произошла ошибка!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
         {
             check_box = true;
@@ -150,6 +135,11 @@ namespace WEReplace1._0
 
         private void Window_StateChanged(object sender, EventArgs e)
         {
+        }
+
+        private void Button_Click_4(object sender, RoutedEventArgs e)
+        {
+            Environment.Exit(0);
         }
     }
 }

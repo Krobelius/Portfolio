@@ -94,16 +94,16 @@ namespace WEReplace1._0
         //дальше идут методы, необходимые для работы с word-файлами в Interop. Я не нашел в NPOI такого же удобного функционала для Word, как для Excel, с этим и связан переход на Interop
         //обычно я бы предпочел не работать с ним, т.к Interop требует установленного Office на ПК и может вызывать ошибки, но для C# не так много удобных библиотек для работы с Office
         Microsoft.Office.Interop.Word.Application wordApp;
-        public void Table_Filler(string[] Fnames, string def_path, System.Data.DataTable dt)
+        public void OpenAndReplace(string [] Fnames,string def_path,System.Data.DataTable dt,bool check)
         {
-            for (int n = 0; n < Fnames.Length; n++)
+            for (int n = 0;n<Fnames.Length;n++)
             {
                 try
                 {
                     wordApp = new Microsoft.Office.Interop.Word.Application();
                     wordApp.Documents.Open(Fnames[n], Type.Missing, false, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, true);
                     var tbls = wordApp.ActiveDocument.Tables.Count;
-                    for(int j = 1;j<tbls;j++)
+                    for (int j = 1; j <= tbls; j++)
                     {
                         Microsoft.Office.Interop.Word.Table tbl = wordApp.ActiveDocument.Tables[j];
                         foreach (System.Data.DataRow row in dt.Rows)
@@ -129,120 +129,66 @@ namespace WEReplace1._0
                     MessageBox.Show("Проблема с открытием файла. Проверьте, что файл Word выбран правильно и не поврежден" + e.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     wordApp.ActiveDocument.Close();
                 }
-                try
-                {
-                    var t = def_path + Path.GetFileNameWithoutExtension(Fnames[n]) + " Готовый.docx";
-                    wordApp.ActiveDocument.SaveAs2(def_path + "\\"+ Path.GetFileNameWithoutExtension(Fnames[n]) + "Готовый" + ".docx");
-                }
-                catch (Exception e)
-                {
-                    MessageBox.Show("Произошла ошибка при попытке записи данных в файл" + e.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    wordApp.ActiveDocument.Close();
-                }
-                wordApp.ActiveDocument.Close();
-            }
-        }
-        public void OpenAndReplace(string [] Fnames,string def_path,System.Data.DataTable dt,bool check)
-        {
-            for(int n = 0;n<Fnames.Length;n++)
-            {
                 DateTime datevalue;
                 try
                 {
-                    wordApp = new Microsoft.Office.Interop.Word.Application();
-                    Object template = Fnames[n];
-                    Object newTemplate = true;
-                    Object documentType = Microsoft.Office.Interop.Word.WdNewDocumentType.wdNewBlankDocument;
-                    Object visible = true;
-                    wordApp.Documents.Open(Fnames[n], Type.Missing, false, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, true);
+                    var doc = wordApp.ActiveDocument;
+                    foreach(Microsoft.Office.Interop.Word.Range range in doc.StoryRanges)
+                    {
+                        for(int k = 1;k<range.Paragraphs.Count;k++)
+                        {
+                            if(range.Paragraphs[k].Range.Tables.Count != 0)
+                            {
+                                continue;
+                            }
+                            else
+                            {
+                                var range_not_table = range.Paragraphs[k].Range;
+                                try
+                                {
+                                    for (int i = 0; i < dt.Rows.Count; i++)
+                                    {
+                                        for (int j = 1; j < dt.Rows[i].ItemArray.Length; j++)
+                                        {
+                                            string value;
+                                            if (check)
+                                            {
+                                                value = dt.Rows[i].ItemArray[1].ToString();
+                                            }
+                                            else
+                                            {
+                                                value = dt.Rows[i].ItemArray[j].ToString();
+                                            }
+                                            if (DateTime.TryParse(value.ToString(), out datevalue) == false)
+                                            {
+                                                range_not_table.Find.Replacement.Text = value;
+                                                range_not_table.Find.Execute(dt.Rows[i].ItemArray[0].ToString(), true, true, false, Type.Missing, Type.Missing, true, Type.Missing, true, Type.Missing, Microsoft.Office.Interop.Word.WdReplace.wdReplaceAll, false, false, false, false);
+                                            }
+                                            else
+                                            {
+                                                range_not_table.Find.Replacement.Text = Convert.ToDateTime(value).ToLongDateString();
+                                                range_not_table.Find.Execute(dt.Rows[i].ItemArray[0].ToString(), true, true, false, Type.Missing, Type.Missing, true, Type.Missing, true, Type.Missing, Microsoft.Office.Interop.Word.WdReplace.wdReplaceAll, false, false, false, false);
+                                            }
+                                        }
+                                    }
+                                    wordApp.ActiveDocument.SaveAs2(def_path + "\\" + Path.GetFileNameWithoutExtension(Fnames[n]) + " Готовый" + ".docx");
+                                }
+                                catch (Exception e)
+                                {
+                                    MessageBox.Show("Произошла ошибка при попытке записи данных в файл" + e.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    wordApp.ActiveDocument.Close();
+                                }
+                            }
+                        }
+                    }
                 }
                 catch (Exception e)
                 {
                     MessageBox.Show("Произошла ошибка!" +e.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     wordApp.ActiveDocument.Close();
                 }
-                try
-                {
-                    for (int i = 0; i < dt.Rows.Count; i++)
-                    {
-                      for (int j = 1; j < dt.Rows[i].ItemArray.Length; j++)
-                      {
-                            string value;
-                            if (check)
-                            {
-                                 value = dt.Rows[i].ItemArray[1].ToString();
-                            }
-                            else
-                            {
-                                value = dt.Rows[i].ItemArray[j].ToString();
-                            }
-                    if (DateTime.TryParse(value.ToString(),out datevalue) == false)
-                            {
-                                ReplaceText(dt.Rows[i].ItemArray[0].ToString(), value);
-                            }
-                    else
-                            {
-                                ReplaceText(dt.Rows[i].ItemArray[0].ToString(), Convert.ToDateTime(value).ToLongDateString());
-                            }
-                        }
-                    }
-                    wordApp.ActiveDocument.SaveAs2(def_path + "\\"+ Path.GetFileNameWithoutExtension(Fnames[n]) + " Готовый" + ".docx");
-                }
-                catch (Exception e)
-                {
-                    MessageBox.Show("Произошла ошибка при попытке записи данных в файл" + e.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    wordApp.ActiveDocument.Close();
-                }
                 wordApp.ActiveDocument.Close();
             }
-        }
-        public void ReplaceText(string word, string repl)
-        {
-            Object unit = Microsoft.Office.Interop.Word.WdUnits.
-            wdStory;
-            Object extend = Microsoft.Office.Interop.Word.
-            WdMovementType.wdMove;
-            wordApp.Selection.HomeKey(ref unit, ref extend);
-            Microsoft.Office.Interop.Word.Find fnd = wordApp.Selection.
-            Find;
-            fnd.Text = word;
-            var tt = fnd.Font.Bold;
-            var ll = fnd.Font;
-            fnd.Replacement.Text = repl;
-            fnd.Replacement.Font.Bold = 0;
-            fnd.ClearFormatting();
-            ExecuteReplace(fnd);
-        }
-        private Boolean ExecuteReplace(Microsoft.Office.Interop.Word.
-Find find)
-        {
-            return ExecuteReplace(find, Microsoft.Office.Interop.Word.
-            WdReplace.wdReplaceAll);
-
-        }
-        private Boolean ExecuteReplace(Microsoft.Office.Interop.Word.
-Find find, Object replaceOption)
-        {
-            Object findText = Type.Missing;
-            Object matchCase = true;
-            Object matchWholeWord = true;
-            Object matchWildcards = Type.Missing;
-            Object matchSoundsLike = Type.Missing;
-            Object matchAllWordForms = Type.Missing;
-            Object forward = Type.Missing;
-            Object wrap = Type.Missing;
-            Object format = true;
-            Object replaceWith = Type.Missing;
-            Object replace = replaceOption;
-            Object matchKashida = Type.Missing;
-            Object matchDiacritics = Type.Missing;
-            Object matchAlefHamza = Type.Missing;
-            Object matchControl = Type.Missing;
-            return find.Execute(ref findText, ref matchCase,
-            ref matchWholeWord, ref matchWildcards, ref matchSoundsLike,
-            ref matchAllWordForms, ref forward, ref wrap, ref format,
-            ref replaceWith, ref replace, ref matchKashida,
-            ref matchDiacritics, ref matchAlefHamza, ref matchControl);
         }
     }
 }
