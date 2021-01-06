@@ -2,7 +2,7 @@
 using System.IO;
 using NPOI.XSSF.UserModel;
 using System.Data;
-using Microsoft.Office.Interop.Word;
+using Microsoft.Office.Interop;
 using System.Windows.Forms;
 using System.Linq;
 using System.Text;
@@ -102,19 +102,23 @@ namespace WEReplace1._0
                 {
                     wordApp = new Microsoft.Office.Interop.Word.Application();
                     wordApp.Documents.Open(Fnames[n], Type.Missing, false, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, true);
-                    Microsoft.Office.Interop.Word.Table tbl = wordApp.ActiveDocument.Tables[1];
-                    foreach (System.Data.DataRow row in dt.Rows)
+                    var tbls = wordApp.ActiveDocument.Tables.Count;
+                    for(int j = 1;j<tbls;j++)
                     {
-                        for (int t = 1; t <= tbl.Columns.Count; t++)
+                        Microsoft.Office.Interop.Word.Table tbl = wordApp.ActiveDocument.Tables[j];
+                        foreach (System.Data.DataRow row in dt.Rows)
                         {
-                            string fixed_text = tbl.Cell(1, t).Range.Text;
-                            fixed_text = fixed_text.Replace("\r", "");
-                            fixed_text = fixed_text.Replace("\a", "");
-                            if (row.ItemArray[0].ToString() == fixed_text)
+                            for (int t = 1; t <= tbl.Columns.Count; t++)
                             {
-                                for (int k = 0; k < row.ItemArray.Length; k++)
+                                string fixed_text = tbl.Cell(1, t).Range.Text;
+                                fixed_text = fixed_text.Replace("\r", "");
+                                fixed_text = fixed_text.Replace("\a", "");
+                                if (row.ItemArray[0].ToString() == fixed_text)
                                 {
-                                    tbl.Cell(k + 1, t).Range.Text = row.ItemArray[k].ToString();
+                                    for (int k = 0; k < row.ItemArray.Length; k++)
+                                    {
+                                        tbl.Cell(k + 1, t).Range.Text = row.ItemArray[k].ToString();
+                                    }
                                 }
                             }
                         }
@@ -127,7 +131,8 @@ namespace WEReplace1._0
                 }
                 try
                 {
-                    wordApp.ActiveDocument.SaveAs2(def_path + "ND" + (n + 1) + ".docx");
+                    var t = def_path + Path.GetFileNameWithoutExtension(Fnames[n]) + " Готовый.docx";
+                    wordApp.ActiveDocument.SaveAs2(def_path + "\\"+ Path.GetFileNameWithoutExtension(Fnames[n]) + "Готовый" + ".docx");
                 }
                 catch (Exception e)
                 {
@@ -160,7 +165,7 @@ namespace WEReplace1._0
                 {
                     for (int i = 0; i < dt.Rows.Count; i++)
                     {
-                      for (int j = 0; j < dt.Rows[i].ItemArray.Length; j++)
+                      for (int j = 1; j < dt.Rows[i].ItemArray.Length; j++)
                       {
                             string value;
                             if (check)
@@ -181,7 +186,7 @@ namespace WEReplace1._0
                             }
                         }
                     }
-                    wordApp.ActiveDocument.SaveAs2(def_path + "ND" + (n+1) + ".docx");
+                    wordApp.ActiveDocument.SaveAs2(def_path + "\\"+ Path.GetFileNameWithoutExtension(Fnames[n]) + " Готовый" + ".docx");
                 }
                 catch (Exception e)
                 {
@@ -200,10 +205,12 @@ namespace WEReplace1._0
             wordApp.Selection.HomeKey(ref unit, ref extend);
             Microsoft.Office.Interop.Word.Find fnd = wordApp.Selection.
             Find;
-            fnd.ClearFormatting();
             fnd.Text = word;
-            fnd.Replacement.ClearFormatting();
+            var tt = fnd.Font.Bold;
+            var ll = fnd.Font;
             fnd.Replacement.Text = repl;
+            fnd.Replacement.Font.Bold = 0;
+            fnd.ClearFormatting();
             ExecuteReplace(fnd);
         }
         private Boolean ExecuteReplace(Microsoft.Office.Interop.Word.
@@ -217,14 +224,14 @@ Find find)
 Find find, Object replaceOption)
         {
             Object findText = Type.Missing;
-            Object matchCase = Type.Missing;
-            Object matchWholeWord = Type.Missing;
+            Object matchCase = true;
+            Object matchWholeWord = true;
             Object matchWildcards = Type.Missing;
             Object matchSoundsLike = Type.Missing;
             Object matchAllWordForms = Type.Missing;
             Object forward = Type.Missing;
             Object wrap = Type.Missing;
-            Object format = Type.Missing;
+            Object format = true;
             Object replaceWith = Type.Missing;
             Object replace = replaceOption;
             Object matchKashida = Type.Missing;

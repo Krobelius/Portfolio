@@ -32,29 +32,18 @@ namespace WEReplace1._0
         }
         private void Window_Initialized(object sender, EventArgs e)
         {
-            WEReplace1._0.Properties.Settings set_path = new Properties.Settings();
-            if (set_path.Savepath == "null")
+            
+            Props pr = new Props();
+            pr.ReadXml();
+            def_path = pr.Fields.path_value;
+            if(def_path == null)
             {
                 def_path = Environment.CurrentDirectory;
-            }
-            else
-            {
-                def_path = set_path.Savepath;
             }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            FolderBrowserDialog fbd = new FolderBrowserDialog();
-            if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                def_path = fbd.SelectedPath;
-                WEReplace1._0.Properties.Settings set_path = new Properties.Settings
-                {
-                    Savepath = fbd.SelectedPath
-                };
-                set_path.Save();
-            }
         }
 
         public void Button_Click_1(object sender, RoutedEventArgs e)
@@ -145,6 +134,22 @@ namespace WEReplace1._0
         private void Button_Click_6(object sender, RoutedEventArgs e)
         {
             Help.ShowHelp(null, "Справка.chm");
+        }
+
+        private void Button_Click_Path(object sender, RoutedEventArgs e)
+        {
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                Props pr = new Props();
+                pr.Fields.path_value = fbd.SelectedPath;
+                def_path = fbd.SelectedPath;
+                pr.WriteXml();
+            }
+        }
+
+        private void Window_StateChanged(object sender, EventArgs e)
+        {
         }
     }
 }
