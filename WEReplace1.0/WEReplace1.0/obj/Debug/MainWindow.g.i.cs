@@ -41,7 +41,7 @@ namespace WEReplace1._0 {
     public partial class MainWindow : System.Windows.Window, System.Windows.Markup.IComponentConnector {
         
         
-        #line 20 "..\..\MainWindow.xaml"
+        #line 22 "..\..\MainWindow.xaml"
         [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         internal System.Windows.Controls.ListBox files_box;
         
@@ -94,7 +94,7 @@ namespace WEReplace1._0 {
             return;
             case 2:
             
-            #line 10 "..\..\MainWindow.xaml"
+            #line 11 "..\..\MainWindow.xaml"
             ((System.Windows.Controls.Button)(target)).Click += new System.Windows.RoutedEventHandler(this.Button_Click_1);
             
             #line default
@@ -102,7 +102,7 @@ namespace WEReplace1._0 {
             return;
             case 3:
             
-            #line 11 "..\..\MainWindow.xaml"
+            #line 12 "..\..\MainWindow.xaml"
             ((System.Windows.Controls.Button)(target)).Click += new System.Windows.RoutedEventHandler(this.Button_Click_5);
             
             #line default
@@ -110,7 +110,7 @@ namespace WEReplace1._0 {
             return;
             case 4:
             
-            #line 13 "..\..\MainWindow.xaml"
+            #line 14 "..\..\MainWindow.xaml"
             ((System.Windows.Controls.Button)(target)).Click += new System.Windows.RoutedEventHandler(this.Button_Click_3);
             
             #line default
@@ -118,7 +118,7 @@ namespace WEReplace1._0 {
             return;
             case 5:
             
-            #line 16 "..\..\MainWindow.xaml"
+            #line 17 "..\..\MainWindow.xaml"
             ((System.Windows.Controls.Button)(target)).Click += new System.Windows.RoutedEventHandler(this.Button_Click_2);
             
             #line default
@@ -127,7 +127,7 @@ namespace WEReplace1._0 {
             case 6:
             this.files_box = ((System.Windows.Controls.ListBox)(target));
             
-            #line 20 "..\..\MainWindow.xaml"
+            #line 22 "..\..\MainWindow.xaml"
             this.files_box.SelectionChanged += new System.Windows.Controls.SelectionChangedEventHandler(this.ListBox_SelectionChanged);
             
             #line default
@@ -135,7 +135,7 @@ namespace WEReplace1._0 {
             return;
             case 7:
             
-            #line 24 "..\..\MainWindow.xaml"
+            #line 26 "..\..\MainWindow.xaml"
             ((System.Windows.Controls.Button)(target)).Click += new System.Windows.RoutedEventHandler(this.Button_Click_6);
             
             #line default
@@ -143,7 +143,7 @@ namespace WEReplace1._0 {
             return;
             case 8:
             
-            #line 25 "..\..\MainWindow.xaml"
+            #line 27 "..\..\MainWindow.xaml"
             ((System.Windows.Controls.Button)(target)).Click += new System.Windows.RoutedEventHandler(this.Button_Click_Path);
             
             #line default
@@ -151,7 +151,7 @@ namespace WEReplace1._0 {
             return;
             case 9:
             
-            #line 26 "..\..\MainWindow.xaml"
+            #line 28 "..\..\MainWindow.xaml"
             ((System.Windows.Controls.Button)(target)).Click += new System.Windows.RoutedEventHandler(this.Button_Click_4);
             
             #line default
@@ -159,7 +159,7 @@ namespace WEReplace1._0 {
             return;
             case 10:
             
-            #line 29 "..\..\MainWindow.xaml"
+            #line 31 "..\..\MainWindow.xaml"
             ((System.Windows.Controls.CheckBox)(target)).Checked += new System.Windows.RoutedEventHandler(this.CheckBox_Checked);
             
             #line default

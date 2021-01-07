@@ -59,7 +59,7 @@ namespace WEReplace1._0
                     files_box.Items.Add("Файл выбран успешно!");
                 }
             }
-            catch (Exception excp)
+            catch (Exception)
             {
                 System.Windows.Forms.MessageBox.Show("Произошла ошибка!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -81,7 +81,7 @@ namespace WEReplace1._0
                     }
                 }
             }
-            catch (Exception excp)
+            catch (Exception)
             {
                 System.Windows.Forms.MessageBox.Show("Произошла ошибка!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -101,7 +101,7 @@ namespace WEReplace1._0
                 fw.OpenAndReplace(array_path, def_path, excel_data,check_box);
                 files_box.Items.Add("Данные заменены успешно!");
             }
-            catch (Exception excp)
+            catch (Exception)
             {
                 System.Windows.Forms.MessageBox.Show("Произошла ошибка!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }

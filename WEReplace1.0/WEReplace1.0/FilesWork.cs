@@ -2,9 +2,9 @@
 using System.IO;
 using NPOI.XSSF.UserModel;
 using System.Data;
+using System.Linq;
 using Microsoft.Office.Interop;
 using System.Windows.Forms;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -91,6 +91,18 @@ namespace WEReplace1._0
             }
             return dt;
         }
+        public int CheckingRows(object[] item_arr)
+        {
+            int summ_rows = 0;
+                foreach(var k in item_arr)
+                {
+                    if(k.ToString() != "")
+                    {
+                        summ_rows++;
+                    }
+                }
+            return summ_rows;
+        }
         //дальше идут методы, необходимые для работы с word-файлами в Interop. Я не нашел в NPOI такого же удобного функционала для Word, как для Excel, с этим и связан переход на Interop
         //обычно я бы предпочел не работать с ним, т.к Interop требует установленного Office на ПК и может вызывать ошибки, но для C# не так много удобных библиотек для работы с Office
         Microsoft.Office.Interop.Word.Application wordApp;
@@ -100,6 +112,7 @@ namespace WEReplace1._0
             {
                 try
                 {
+
                     wordApp = new Microsoft.Office.Interop.Word.Application();
                     wordApp.Documents.Open(Fnames[n], Type.Missing, false, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, true);
                     var tbls = wordApp.ActiveDocument.Tables.Count;
@@ -115,9 +128,29 @@ namespace WEReplace1._0
                                 fixed_text = fixed_text.Replace("\a", "");
                                 if (row.ItemArray[0].ToString() == fixed_text)
                                 {
-                                    for (int k = 0; k < row.ItemArray.Length; k++)
+                                    if (tbl.Rows.Count < CheckingRows(row.ItemArray))
                                     {
-                                        tbl.Cell(k + 1, t).Range.Text = row.ItemArray[k].ToString();
+                                        for (int rw = CheckingRows(row.ItemArray) - tbl.Rows.Count; rw > 0; rw--)
+                                        {
+                                            tbl.Rows.Add();
+                                        }
+                                    }
+                                    for (int k = 0; k < CheckingRows(row.ItemArray); k++)
+                                    {
+                                        DateTime date;
+                                        if(DateTime.TryParse(row.ItemArray[k].ToString(),out date))
+                                        {
+                                            var date_replace = Convert.ToDateTime(row.ItemArray[k]).ToLongDateString();
+                                            tbl.Cell(k + 1, t).Range.Text = date_replace.ToString();
+                                            tbl.Cell(k + 1, t).Range.Font.Bold = 0;
+                                            tbl.Cell(k + 1, t).Range.Font.AllCaps = 0;
+                                        }
+                                        else
+                                        {
+                                            tbl.Cell(k + 1, t).Range.Text = row.ItemArray[k].ToString();
+                                            tbl.Cell(k + 1, t).Range.Font.Bold = 0;
+                                            tbl.Cell(k + 1, t).Range.Font.AllCaps = 0;
+                                        }
                                     }
                                 }
                             }
@@ -135,7 +168,7 @@ namespace WEReplace1._0
                     var doc = wordApp.ActiveDocument;
                     foreach(Microsoft.Office.Interop.Word.Range range in doc.StoryRanges)
                     {
-                        for(int k = 1;k<range.Paragraphs.Count;k++)
+                        for(int k = 1;k<=range.Paragraphs.Count;k++)
                         {
                             if(range.Paragraphs[k].Range.Tables.Count != 0)
                             {
@@ -162,6 +195,8 @@ namespace WEReplace1._0
                                             if (DateTime.TryParse(value.ToString(), out datevalue) == false)
                                             {
                                                 range_not_table.Find.Replacement.Text = value;
+                                                range_not_table.Find.Replacement.Font.Bold = 0;
+                                                range.Find.Replacement.Font.AllCaps = 0;
                                                 range_not_table.Find.Execute(dt.Rows[i].ItemArray[0].ToString(), true, true, false, Type.Missing, Type.Missing, true, Type.Missing, true, Type.Missing, Microsoft.Office.Interop.Word.WdReplace.wdReplaceAll, false, false, false, false);
                                             }
                                             else

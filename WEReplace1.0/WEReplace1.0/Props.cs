@@ -32,9 +32,11 @@ namespace WEReplace1._0
         {
             if (File.Exists(Fields.XMLFileName))
             {
-                XmlRootAttribute xRoot = new XmlRootAttribute();
-                xRoot.ElementName = "PropsFields";
-                xRoot.IsNullable = true;
+                XmlRootAttribute xRoot = new XmlRootAttribute
+                {
+                    ElementName = "PropsFields",
+                    IsNullable = true
+                };
                 XmlSerializer ser = new XmlSerializer(typeof(PropsFields),xRoot);
                 TextReader reader = new StreamReader(Fields.XMLFileName);
                 Fields = ser.Deserialize(reader) as PropsFields;
